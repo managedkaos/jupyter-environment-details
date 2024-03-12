@@ -83,10 +83,10 @@ Resources:
       Value: !Ref NotebookInstanceName
 
 Outputs:
-  ClassicJupyterNotebookInterface:
+  ClassicURL:
     Description: Classic Jupyter Notebook Interface
     Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=classic'
-  JupyterLabInterface:
+  LabURL:
     Description: Jupyter Lab Interface
     Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=lab'
   WebsiteURL:
