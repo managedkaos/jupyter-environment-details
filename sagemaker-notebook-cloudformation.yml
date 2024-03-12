@@ -47,6 +47,7 @@ Resources:
 
   S3Bucket:
     Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Delete
     Properties:
       BucketName: !Ref NotebookInstanceName
       PublicAccessBlockConfiguration:
@@ -60,22 +61,19 @@ Resources:
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
-  BucketPolicy:
+  S3BucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
+    DeletionPolicy: Delete
     Properties:
       Bucket: !Ref S3Bucket
       PolicyDocument:
-        Version: "2012-10-17"
         Statement:
-          - Sid: PublicReadForGetBucketObjects
+          - Sid: PublicReadGetObject
             Effect: Allow
             Principal: '*'
-            Action: 's3:GetObject'
-            Resource: !Join 
-              - ''
-              - - 'arn:aws:s3:::'
-                - !Ref S3Bucket
-                - /*
+            Action:
+              - 's3:GetObject'
+            Resource: !Sub '${S3Bucket.Arn}/*'
 
   S3BucketNameParameter:
     Type: 'AWS::SSM::Parameter'
@@ -91,7 +89,7 @@ Outputs:
   JupyterLabInterface:
     Description: Jupyter Lab Interface
     Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=lab'
-  S3WebsiteURL:
+  WebsiteURL:
     Value: !GetAtt 
       - S3Bucket
       - WebsiteURL
