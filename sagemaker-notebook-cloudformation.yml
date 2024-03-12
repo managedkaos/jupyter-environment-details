@@ -49,6 +49,20 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: !Ref NotebookInstanceName
+      WebsiteConfiguration:
+        IndexDocument: 'index.html'
+        ErrorDocument: 'error.html'
+  S3BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub 'arn:aws:s3:::${S3BucketName}/*'
 
   S3BucketNameParameter:
     Type: 'AWS::SSM::Parameter'
@@ -64,3 +78,6 @@ Outputs:
   JupyterLabInterface:
     Description: Jupyter Lab Interface
     Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=lab'
+  S3WebsiteURL:
+    Description: URL of the S3 Bucket configured as a static website
+    Value: !Sub 'http://${NotebookInstanceName}.s3-website-${AWS::Region}.amazonaws.com/'
