@@ -49,20 +49,27 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: !Ref NotebookInstanceName
+      AccessControl: PublicRead
       WebsiteConfiguration:
-        IndexDocument: 'index.html'
-        ErrorDocument: 'error.html'
-  S3BucketPolicy:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  BucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
     Properties:
-      Bucket: !Ref S3Bucket
       PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
         Statement:
-          - Sid: PublicReadGetObject
+          - Sid: PublicReadForGetBucketObjects
             Effect: Allow
             Principal: '*'
             Action: 's3:GetObject'
-            Resource: !Sub 'arn:aws:s3:::${NotebookInstanceName}/*'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - /*
+      Bucket: !Ref S3Bucket
 
   S3BucketNameParameter:
     Type: 'AWS::SSM::Parameter'
