@@ -36,7 +36,7 @@ Resources:
                   - 'ssm:GetParameter'
                   - 'ssm:PutParameter'
                 Resource:
-                  - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${NotebookInstanceName}'
+                  - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${NotebookInstanceName}/*'
 
   SageMakerNotebookInstance:
     Type: 'AWS::SageMaker::NotebookInstance'
@@ -83,6 +83,12 @@ Resources:
       Value: !Ref NotebookInstanceName
 
 Outputs:
+  Region:
+    Description: The region where the stack is running
+    Value: !Sub ${AWS::Region}
+  NotebookInstanceName:
+    Description: The name assigned to the notebook instance and other resources
+    Value: !Sub ${NotebookInstanceName}
   ClassicURL:
     Description: Classic Jupyter Notebook Interface
     Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=classic'
