@@ -52,6 +52,7 @@ Resources:
       AccessControl: PublicRead
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
+        BlockPublicPolicy: false
       OwnershipControls:
         Rules:
           - ObjectOwnership: ObjectWriter
