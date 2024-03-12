@@ -53,17 +53,14 @@ Resources:
   S3BucketNameParameter:
     Type: 'AWS::SSM::Parameter'
     Properties:
-      Name: !Sub '${NotebookInstanceName}/S3Bucket'
+      Name: !Sub '/${NotebookInstanceName}/S3Bucket'
       Type: String
       Value: !Ref NotebookInstanceName
 
 Outputs:
-  NotebookInstanceUrl:
-    Description: URL of the SageMaker Notebook Instance
-    Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}'
-  S3BucketName:
-    Description: Name of the S3 Bucket
-    Value: !Ref S3BucketName
-  SSMParameterName:
-    Description: Name of the SSM Parameter
-    Value: !Ref SSMParameterName
+  ClassicJupyterNotebookInterface:
+    Description: Classic Jupyter Notebook Interface
+    Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=classic'
+  JupyterLabInterface:
+    Description: Jupyter Lab Interface
+    Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=lab'
