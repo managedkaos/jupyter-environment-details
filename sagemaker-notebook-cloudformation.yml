@@ -50,15 +50,20 @@ Resources:
     Properties:
       BucketName: !Ref NotebookInstanceName
       AccessControl: PublicRead
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: ObjectWriter
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
   BucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
     Properties:
+      Bucket: !Ref S3Bucket
       PolicyDocument:
-        Id: MyPolicy
-        Version: 2012-10-17
+        Version: "2012-10-17"
         Statement:
           - Sid: PublicReadForGetBucketObjects
             Effect: Allow
@@ -69,7 +74,6 @@ Resources:
               - - 'arn:aws:s3:::'
                 - !Ref S3Bucket
                 - /*
-      Bucket: !Ref S3Bucket
 
   S3BucketNameParameter:
     Type: 'AWS::SSM::Parameter'
@@ -86,5 +90,15 @@ Outputs:
     Description: Jupyter Lab Interface
     Value: !Sub 'https://${AWS::Region}.console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${NotebookInstanceName}?view=lab'
   S3WebsiteURL:
-    Description: URL of the S3 Bucket configured as a static website
-    Value: !Sub 'http://${NotebookInstanceName}.s3-website-${AWS::Region}.amazonaws.com/'
+    Value: !GetAtt 
+      - S3Bucket
+      - WebsiteURL
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value: !Join 
+      - ''
+      - - 'https://'
+        - !GetAtt 
+          - S3Bucket
+          - DomainName
+    Description: Name of S3 bucket to hold website content
