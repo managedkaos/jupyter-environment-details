@@ -50,11 +50,6 @@ Resources:
     Properties:
       BucketName: !Ref NotebookInstanceName
       AccessControl: PublicRead
-      PublicAccessBlockConfiguration:
-        IgnorePublicAcls: true
-        BlockPublicAcls: false
-        BlockPublicPolicy: false
-        RestrictPublicBuckets: false
       OwnershipControls:
         Rules:
           - ObjectOwnership: ObjectWriter
