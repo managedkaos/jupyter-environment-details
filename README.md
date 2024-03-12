@@ -3,3 +3,5 @@ A Jupyter notebook that reports the details of the environment where the noteboo
 
 - [URL for the raw Jupyter Environment Details notebook](https://raw.githubusercontent.com/managedkaos/jupyter-environment-details/main/jupyter-environment-details.ipynb)
 - [URL for the raw SageMaker Demo CloudFormation template](https://raw.githubusercontent.com/managedkaos/jupyter-environment-details/main/sagemaker-notebook-cloudformation.yml)
+- [URL for the raw SageMaker Demo Jupyter notebook](https://raw.githubusercontent.com/managedkaos/jupyter-environment-details/main/sagemaker-notebook-demonstration.ipynb)
+
